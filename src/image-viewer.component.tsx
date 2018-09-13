@@ -2,17 +2,13 @@ import * as React from 'react';
 import {
   Animated,
   CameraRoll,
-  Dimensions,
   I18nManager,
   Image,
-  PanResponder,
-  Platform,
   Text,
   TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
-  ViewStyle
+  View
 } from 'react-native';
 import ImageZoom from 'react-native-image-pan-zoom';
 import styles from './image-viewer.style';
@@ -36,9 +32,6 @@ export default class ImageViewer extends React.Component<Props, State> {
   private height = 0;
 
   private styles = styles(0, 0, 'transparent');
-
-  // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
-  private hasLayout = false;
 
   // 记录已加载的图片 index
   private loadedIndex = new Map<number, boolean>();
@@ -159,16 +152,6 @@ export default class ImageViewer extends React.Component<Props, State> {
       imageStatus.status = 'success';
       saveImageSize();
       return;
-    }
-
-    // 是否加载完毕了图片大小
-    const sizeLoaded = false;
-    // 是否加载完毕了图片
-    let imageLoaded = false;
-
-    // Tagged success if url is started with file:, or not set yet(for custom source.uri).
-    if (!image.url || image.url.startsWith(`file:`)) {
-      imageLoaded = true;
     }
 
     Image.getSize(
@@ -371,7 +354,6 @@ export default class ImageViewer extends React.Component<Props, State> {
    * 退出
    */
   public handleCancel = () => {
-    this.hasLayout = false;
     if (this.props.onCancel) {
       this.props.onCancel();
     }
@@ -382,8 +364,6 @@ export default class ImageViewer extends React.Component<Props, State> {
    */
   public handleLayout = (event: any) => {
     if (event.nativeEvent.layout.width !== this.width) {
-      this.hasLayout = true;
-
       this.width = event.nativeEvent.layout.width;
       this.height = event.nativeEvent.layout.height;
       this.styles = styles(this.width, this.height, this.props.backgroundColor || 'transparent');
