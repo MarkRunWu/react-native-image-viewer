@@ -426,7 +426,6 @@ export default class ImageViewer extends React.Component<Props, State> {
           enableSwipeDown={this.props.enableSwipeDown}
           onSwipeDown={this.handleSwipeDown}
           pinchToZoom={this.props.enableImageZoom}
-          enableDoubleClickZoom={this.props.enableImageZoom}
           doubleClickInterval={this.props.doubleClickInterval}
           {...others}
         >
@@ -492,7 +491,6 @@ export default class ImageViewer extends React.Component<Props, State> {
               enableSwipeDown={this.props.enableSwipeDown}
               onSwipeDown={this.handleSwipeDown}
               pinchToZoom={this.props.enableImageZoom}
-              enableDoubleClickZoom={this.props.enableImageZoom}
               doubleClickInterval={this.props.doubleClickInterval}
             >
               {this!.props!.renderImage!(image.props)}
